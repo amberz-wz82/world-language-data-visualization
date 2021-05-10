@@ -1,0 +1,253 @@
+country_id,country_name,total_pop
+108,Burundi,11890.781
+174,Comoros,869.595
+262,Djibouti,988.002
+232,Eritrea,3546.427
+231,Ethiopia,114963.583
+404,Kenya,53771.3
+450,Madagascar,27691.019
+454,Malawi,19129.955
+480,Mauritius,1271.767
+175,Mayotte,272.813
+508,Mozambique,31255.435
+638,R�union,895.308
+646,Rwanda,12952.209
+690,Seychelles,98.34
+706,Somalia,15893.219
+728,South Sudan,11193.729
+800,Uganda,45741
+834,United Republic of Tanzania,59734.213
+894,Zambia,18383.956
+716,Zimbabwe,14862.927
+24,Angola,32866.268
+120,Cameroon,26545.864
+140,Central African Republic,4829.764
+148,Chad,16425.859
+178,Congo,5518.092
+180,Democratic Republic of the Congo,89561.404
+226,Equatorial Guinea,1402.985
+266,Gabon,2225.728
+678,Sao Tome and Principe,219.161
+72,Botswana,2351.625
+748,Eswatini,1160.164
+426,Lesotho,2142.252
+516,Namibia,2540.916
+710,South Africa,59308.69
+204,Benin,12123.198
+854,Burkina Faso,20903.278
+132,Cabo Verde,555.988
+384,C�te d'Ivoire,26378.275
+270,Gambia,2416.664
+288,Ghana,31072.945
+324,Guinea,13132.792
+624,Guinea-Bissau,1967.998
+430,Liberia,5057.677
+466,Mali,20250.834
+478,Mauritania,4649.66
+562,Niger,24206.636
+566,Nigeria,206139.587
+654,Saint Helena,6.071
+686,Senegal,16743.93
+694,Sierra Leone,7976.985
+768,Togo,8278.737
+12,Algeria,43851.043
+818,Egypt,102334.403
+434,Libya,6871.287
+504,Morocco,36910.558
+729,Sudan,43849.269
+788,Tunisia,11818.618
+732,Western Sahara,597.33
+51,Armenia,2963.234
+31,Azerbaijan,10139.175
+48,Bahrain,1701.583
+196,Cyprus,1207.361
+268,Georgia,3989.175
+368,Iraq,40222.503
+376,Israel,8655.541
+400,Jordan,10203.14
+414,Kuwait,4270.563
+422,Lebanon,6825.442
+512,Oman,5106.622
+634,Qatar,2881.06
+682,Saudi Arabia,34813.867
+275,State of Palestine,5101.416
+760,Syrian Arab Republic,17500.657
+792,Turkey,84339.067
+784,United Arab Emirates,9890.4
+887,Yemen,29825.968
+398,Kazakhstan,18776.707
+417,Kyrgyzstan,6524.191
+762,Tajikistan,9537.642
+795,Turkmenistan,6031.187
+860,Uzbekistan,33469.199
+4,Afghanistan,38928.341
+50,Bangladesh,164689.383
+64,Bhutan,771.612
+356,India,1380004.385
+364,Iran (Islamic Republic of),83992.953
+462,Maldives,540.542
+524,Nepal,29136.808
+586,Pakistan,220892.331
+144,Sri Lanka,21413.25
+156,China,1439323.774
+344,"China, Hong Kong SAR",7496.988
+446,"China, Macao SAR",649.342
+158,"China, Taiwan Province of China",23816.775
+408,Dem. People's Republic of Korea,25778.815
+392,Japan,126476.458
+496,Mongolia,3278.292
+410,Republic of Korea,51269.183
+920,South-Eastern Asia,668619.854
+96,Brunei Darussalam,437.483
+116,Cambodia,16718.971
+360,Indonesia,273523.621
+418,Lao People's Democratic Republic,7275.556
+458,Malaysia,32365.998
+104,Myanmar,54409.794
+608,Philippines,109581.085
+702,Singapore,5850.343
+764,Thailand,69799.978
+626,Timor-Leste,1318.442
+704,Viet Nam,97338.583
+1830,LATIN AMERICA AND THE CARIBBEAN,653962.332
+915,Caribbean,43532.374
+660,Anguilla,15.002
+28,Antigua and Barbuda,97.928
+533,Aruba,106.766
+44,Bahamas,393.248
+52,Barbados,287.371
+535,"Bonaire, Sint Eustatius and Saba",26.221
+92,British Virgin Islands,30.237
+136,Cayman Islands,65.72
+192,Cuba,11326.616
+531,Cura�ao,164.1
+212,Dominica,71.991
+214,Dominican Republic,10847.904
+308,Grenada,112.519
+312,Guadeloupe,400.127
+332,Haiti,11402.533
+388,Jamaica,2961.161
+474,Martinique,375.265
+500,Montserrat,4.999
+630,Puerto Rico,2860.84
+652,Saint Barth�lemy,9.885
+659,Saint Kitts and Nevis,53.192
+662,Saint Lucia,183.629
+663,Saint Martin (French part),38.659
+670,Saint Vincent and the Grenadines,110.947
+534,Sint Maarten (Dutch part),42.882
+780,Trinidad and Tobago,1399.491
+796,Turks and Caicos Islands,38.718
+850,United States Virgin Islands,104.423
+916,Central America,179670.186
+84,Belize,397.621
+188,Costa Rica,5094.114
+222,El Salvador,6486.201
+320,Guatemala,17915.567
+340,Honduras,9904.608
+484,Mexico,128932.753
+558,Nicaragua,6624.554
+591,Panama,4314.768
+931,South America,430759.772
+32,Argentina,45195.777
+68,Bolivia (Plurinational State of),11673.029
+76,Brazil,212559.409
+152,Chile,19116.209
+170,Colombia,50882.884
+218,Ecuador,17643.06
+238,Falkland Islands (Malvinas),3.483
+254,French Guiana,298.682
+328,Guyana,786.559
+600,Paraguay,7132.53
+604,Peru,32971.846
+740,Suriname,586.634
+858,Uruguay,3473.727
+862,Venezuela (Bolivarian Republic of),28435.943
+927,AUSTRALIA/NEW ZEALAND,30322.114
+36,Australia,25499.881
+554,New Zealand,4822.233
+1835,OCEANIA (EXCLUDING AUSTRALIA AND NEW ZEALAND),12355.695
+928,Melanesia,11122.99
+242,Fiji,896.444
+540,New Caledonia,285.491
+598,Papua New Guinea,8947.027
+90,Solomon Islands,686.878
+548,Vanuatu,307.15
+954,Micronesia,548.927
+316,Guam,168.783
+296,Kiribati,119.446
+584,Marshall Islands,59.194
+583,Micronesia (Fed. States of),115.021
+520,Nauru,10.834
+580,Northern Mariana Islands,57.557
+585,Palau,18.092
+957,Polynesia,683.778
+16,American Samoa,55.197
+184,Cook Islands,17.564
+258,French Polynesia,280.904
+570,Niue,1.618
+882,Samoa,198.41
+772,Tokelau,1.35
+776,Tonga,105.697
+798,Tuvalu,11.792
+876,Wallis and Futuna Islands,11.246
+1829,EUROPE AND NORTHERN AMERICA,1116505.689
+917,EUROPE,747636.045
+923,Eastern Europe,293013.21
+112,Belarus,9449.321
+100,Bulgaria,6948.445
+203,Czechia,10708.982
+348,Hungary,9660.35
+616,Poland,37846.605
+498,Republic of Moldova,4033.963
+642,Romania,19237.682
+643,Russian Federation,145934.46
+703,Slovakia,5459.643
+804,Ukraine,43733.759
+924,Northern Europe,106261.271
+830,Channel Islands,173.859
+208,Denmark,5792.203
+233,Estonia,1326.539
+234,Faroe Islands,48.865
+246,Finland,5540.718
+352,Iceland,341.25
+372,Ireland,4937.796
+833,Isle of Man,85.032
+428,Latvia,1886.202
+440,Lithuania,2722.291
+578,Norway,5421.242
+752,Sweden,10099.27
+826,United Kingdom,67886.004
+925,Southern Europe,152215.243
+8,Albania,2877.8
+20,Andorra,77.265
+70,Bosnia and Herzegovina,3280.815
+191,Croatia,4105.268
+292,Gibraltar,33.691
+300,Greece,10423.056
+336,Holy See,0.809
+380,Italy,60461.828
+470,Malta,441.539
+499,Montenegro,628.062
+807,North Macedonia,2083.38
+620,Portugal,10196.707
+674,San Marino,33.938
+688,Serbia,8737.37
+705,Slovenia,2078.932
+724,Spain,46754.783
+926,Western Europe,196146.321
+40,Austria,9006.4
+56,Belgium,11589.616
+250,France,65273.512
+276,Germany,83783.945
+438,Liechtenstein,38.137
+442,Luxembourg,625.976
+492,Monaco,39.244
+528,Netherlands,17134.873
+756,Switzerland,8654.618
+918,NORTHERN AMERICA,368869.644
+60,Bermuda,62.273
+124,Canada,37742.157
+304,Greenland,56.772
+666,Saint Pierre and Miquelon,5.795
+840,United States of America,331002.647

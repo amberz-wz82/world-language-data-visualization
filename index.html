@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+  <title>Global Language</title>
+
+  <meta charset="utf-8">
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <script src="https://d3js.org/topojson.v3.min.js"></script>
+  <script src="https://unpkg.com/topojson-server@3"></script>
+
+  <style>
+    body {
+      color: #6e4f38;
+      background-color: #a07b54;
+      margin: 0;
+      font-family: 'Trebuchet MS', sans-serif;
+    }
+
+    h1,
+    h2 {
+      text-align: center;
+      padding: 40px 0 20px 0;
+      margin: 0;
+    }
+
+    em {
+      font-style: normal;
+      color: #8b9e65;
+      font-weight: bolder;
+    }
+
+    a {
+      color: #6e4f38;
+      text-decoration: none;
+    }
+
+    header {
+      border-bottom: 8px solid #8a674e;
+      width: 80%;
+      margin: auto;
+    }
+
+    main {
+      margin: 0 auto;
+      text-align: center;
+      max-width: 1100px;
+      background-color: #ebdfd1;
+      padding-top: 0;
+    }
+
+    footer {
+      padding-bottom: 20px;
+      width: 70%;
+      margin: auto;
+    }
+
+    footer p.chart-dscrpt {
+      padding-bottom: 30px;
+    }
+
+    main div {
+      margin-top: 50px;
+    }
+
+    div#familylegend,
+    div#languagelegend {
+      padding-bottom: 30px;
+    }
+
+    div#button {
+      margin-top: 70px;
+    }
+
+    div#button span {
+      margin: 0px 20px;
+      padding: 20px;
+      border-radius: 15px;
+      font-size: 18px;
+    }
+
+    .hidden {
+      display: none
+    }
+
+    .counties_mesh {
+      fill: none
+    }
+
+    .legend-label {
+      padding: 7px 10px;
+      border-radius: 5px;
+      font-size: 15px;
+      margin-left: 8px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <main>
+
+    <header>
+      <h1>Global Languages and Their Origins</h1>
+      <h2>By: Ian Lee, Amber Zheng, Massimo Carbone</h2>
+    </header>
+
+    <a name="mapCanvas"><h3>Most Spoken Language Families around the World</h3></a>
+      <p>Each family is spoken by at least <em>1%</em> of the world population.</p>
+      <a href="#mapCanvas"><div id="button"></div></a>
+      <div id="familylegend"></div>
+      <div id="languagelegend"></div>
+      
+      <svg id="main_plot"></svg>
+
+      <footer>
+        <p class="chart-dscrpt">Each dot on the world map represents a distinct languoid/dialect and its geographical
+          origin. There are totally around <em>2700</em> languoids shown. The most spoken languages map highlights the countries that have a significant population speaking each language.</p>
+        <p>Source: www.ethnologue.com; https://wals.info/languoid</p>
+      </footer>
+
+      <script>
+
+        // async function to handle promise objects
+        const main = async function () {
+
+          // set svg properties
+          const width = 1000;
+          const height = 650;
+          const margin = { "top": 30, "right": 30, "bottom": 30, "left": 30 };
+          const chartWidth = width - margin.right - margin.left;
+          const chartHeight = height - margin.top - margin.bottom;
+          const svg = d3.select("svg#main_plot")
+            .attr("height", height)
+            .attr("width", width)
+          const map = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+          const pieChart = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+          // Import data in csv format
+          let world_map = await d3.json("countries-110m.json");
+          // remove antarctica since it is not in the scope of language origins
+          world_map.objects.countries.geometries = world_map.objects.countries.geometries.filter(d => d.id != "010");
+          console.log("1", world_map);
+
+          const languages = await d3.json("output-onlinetsvtools.json");
+          console.log("2", languages)
+
+          const country_details = await d3.csv("country_population_data.csv")
+          console.log("3", country_details);
+
+          const country_details2 = await d3.csv("countries_codes_and_coordinates.csv")
+          country_details2.forEach(d => {
+            d["Numeric code"] = d["Numeric code"].replace(/\D/g, "")
+            d["Alpha-2 code"] = d["Alpha-2 code"].replace(/\W/g, "")
+            d["Alpha-3 code"] = d["Alpha-3 code"].replace(/\W/g, "")
+          })
+          console.log("4", country_details2);
+
+          const country_details3 = await d3.tsv("LanguageIndex.tsv")
+          let filtered_country_details3 = country_details3.filter(d =>
+            d["NameType"] == "L"
+          )
+
+          console.log("5", country_details3);
+          console.log("6", filtered_country_details3);
+
+          // merge, clean, and filter country data
+          // Each country entry should have population, list of spoken languages, iso3166 alpha-2 and alpha-3 code added
+          // Entries with missing information are entirely removed
+
+          world_map.objects.countries.geometries.forEach(d => {
+            let population_data = country_details.filter(d2 => parseInt(d2.country_id) == parseInt(d.id));
+            let alpha_data = country_details2.filter(d2 => parseInt(d2["Numeric code"]) == parseInt(d.id))
+            if (population_data.length > 0) {
+              d.population = population_data[0].total_pop
+            } else {
+              d.population = -1
+            }
+            if (alpha_data.length > 0) {
+              d.alpha2 = alpha_data[0]["Alpha-2 code"]
+              d.alpha3 = alpha_data[0]["Alpha-3 code"]
+            } else {
+              d.alpha2 = null
+              d.alpha3 = null
+            }
+          });
+
+          world_map.objects.countries.geometries.forEach(d => {
+            let language_data = filtered_country_details3.filter(d2 => d2.CountryID == d.alpha2)
+            let language_list = language_data.map(d => d.LangID)
+            if (language_list.length > 0) {
+              d.properties.languages = language_list
+            } else {
+              d.properties.languages = []
+            }
+          });
+
+          // find top ten most spoken family languages
+          let popular_languages = { "Chinese": "cmn", "English": "eng", "Spanish": "spa", "Hindi": "hin", "Bengali": "ben", "Japanese": "jpn", "Russian": "rus", "French": "fra", "Portuguese": "por", "Arabic": "arb", "German": "deu" };
+
+          // define dominant language families
+          let language_families = ["Indo-European", "Sino-Tibetan", "Niger-Congo", "Afro-Asiatic", "Austronesian", "Dravidian", "Altaic", "Tai-Kadai", "Austro-Asiatic"];
+          languages.forEach(d => {
+            if (!language_families.includes(d.family)) {
+              d.family = "Others";
+            }
+          });
+          // find top ten most spoken languages
+
+
+          // --------------------------- Map features ---------------------------------
+          var countries = topojson.feature(world_map, world_map.objects.countries)
+          var countries_mesh = topojson.mesh(world_map, world_map.objects.countries)
+          console.log("3", countries);
+          const projection = d3.geoMercator().fitSize([chartWidth, chartHeight], countries);
+          const path = d3.geoPath().projection(projection);
+
+          // color scale
+          const languageScale = d3.scaleOrdinal(d3.schemePaired);
+          console.log(languageScale);
+
+          // map visualization  
+          var graticule = d3.geoGraticule10()
+          map.append("path")
+          .attr("d",path(graticule))
+          .attr("stroke-width", "1px")
+          .attr("stroke", "antiquewhite")
+          .attr("fill", "none")
+
+          map.selectAll("path.country").data(countries.features)
+            .join("path")
+            .attr("class", "country")
+            .attr("d", path)
+            .attr("id", d => d.id)
+            .attr("fill", "#c8b9ae")
+
+          map.append("path").datum(countries_mesh)
+            .attr("class", "counties_mesh")
+            .attr("stroke", "#ebdfd1")
+            .attr("stroke-width", "1.5px")
+            .attr("d", path)
+
+          map.selectAll("circle.language").data(languages)
+            .join("circle")
+            .attr("class", "language")
+            .classed("clicked", false)
+            .attr("fill", d => languageScale(d.family))
+            .attr("fill", "#444444")
+            .attr("stroke", "#3a3939")
+            .attr("stroke-width", "1px")
+            .attr("opacity", 0.5)
+            .attr("r", "1.5px")
+            .attr("cx", d => projection([d.longitude, 0])[0])
+            .attr("cy", d => projection([0, d.latitude])[1])
+            .attr("id", d => d.name)
+
+          // language families buttons
+          languageScale.domain().forEach((d, i) => {
+            d3.select("div#familylegend")
+              .append("span")
+              .text(d)
+              .classed("legend-label", true)
+              .style("color", "black")
+              .style("background-color", languageScale(d))
+              .on("mouseover", function () {
+
+                d3.select(this).style("border", "3px solid #8a674e")
+                d3.selectAll("circle.language").each(function () {
+                  let circle = d3.select(this)
+                  if (circle.data()[0].family == d) {
+                    circle.attr("fill", languageScale(d))
+                      .attr("opacity", 0.7)
+                      .attr("r", "4px")
+                      .raise()
+                  }
+                })
+
+              })
+              .on("mouseout", function () {
+
+                let remove_border = true
+                d3.selectAll("circle.language").each(function () {
+                  let circle = d3.select(this)
+                  if (circle.classed("clicked")) {
+                    if (circle.data()[0].family == d) {
+                      remove_border = false
+                    }
+                  } else {
+                    circle.attr("fill", "#444444")
+                    circle.attr("r", "1.5px")
+                  }
+                })
+                if (remove_border) {
+                  d3.select(this).style("border", "none")
+                }
+              })
+              .on("click", function () {
+
+                d3.selectAll("circle.language").each(function () {
+                  let circle = d3.select(this)
+                  if (circle.data()[0].family == d) {
+                    if (circle.classed("clicked")) {
+                      circle.classed("clicked", false)
+                    } else {
+                      circle.classed("clicked", true)
+                    }
+                  }
+                })
+
+              })
+          })
+
+          Object.keys(popular_languages).forEach((d, i) => {
+            d3.select("div#languagelegend")
+              .append("span")
+              .text(d)
+              .classed("legend-label", true)
+              .style("color", "black")
+              .style("background-color", "#ebd5bd")
+              .on("mouseover", function () {
+                d3.select(this).style("border", "3px solid #8a674e")
+              })
+              .on("mouseout", function () {
+                var label = d3.select(this)
+                if (label.classed("clicked")) {
+                } else {
+                d3.select(this).style("border", "none")
+                }
+              })
+              .on("click", function() {
+                d3.selectAll("div#languagelegend span")
+                .style("border", "none")
+                .classed("clicked", false)
+                d3.select(this).classed("clicked", true).style("border", "3px solid #8a674e")
+                d3.selectAll("path.country").each(function () {
+                let country_path = d3.select(this)
+                  if (country_path.data()[0].properties.languages.includes(popular_languages[d])) {
+                    country_path.attr("fill", "#798d4b")
+                  } else {                    
+                    country_path.attr("fill", "#c8b9ae")
+                  }
+              })
+            })
+          })
+
+          // Hide elements appropriately and show upon user interaction
+          d3.select("div#familylegend").classed("hidden", false)
+          d3.select("div#languagelegend").classed("hidden", true)
+          d3.selectAll("circle").classed("hidden", false)
+          map.classed("hidden", false)
+
+          // Top level buttons and interactions
+          let buttons = ["Language Families", "Most Spoken Languages"]
+          buttons.forEach((d,i) => {
+            d3.select("div#button")
+              .append("span")
+              .attr("id", "button"+i)
+              .text(d)
+              .style("border", "3px dashed #6e4f38")
+              .on("mouseover", function () {
+                d3.select(this).style("background", "#e9d1b5")
+              })
+              .on("mouseout", function () {
+                d3.select(this).style("background", "none")
+              })
+              .on("click", function () {
+                if (d == "Language Families") {
+                  d3.select("div#familylegend").classed("hidden", false)
+                  d3.select("div#languagelegend").classed("hidden", true)
+                  d3.selectAll("circle").classed("hidden", false)
+                  map.classed("hidden", false)
+                  d3.selectAll("path.country").each(function () { 
+                    d3.select(this).attr("fill", "#ceb9a9")
+                }) }
+                else if (d == "Most Spoken Languages") {
+                  d3.select("div#familylegend").classed("hidden", true)
+                  d3.select("div#languagelegend").classed("hidden", false)
+                  d3.selectAll("circle").classed("hidden", true)
+                  map.classed("hidden", false)
+                }
+                else {
+                  d3.select("div#familylegend").classed("hidden", true)
+                  d3.select("div#languagelegend").classed("hidden", true)
+                  d3.selectAll("circle").classed("hidden", true)
+                  map.classed("hidden", true)
+                }
+                d3.selectAll("div#button span").style("border", "3px dashed #6e4f38")
+                d3.select(this).style("border", "5px solid #6e4f38")
+              })
+          })
+          d3.select("span#button0").style("border", "5px solid #6e4f38")
+
+
+          // Country pop distribution pie chart
+          const percentScale = d3.scaleLinear().domain([0,1]).range([chartHeight, 0]);
+          let leftAxis = d3.axisLeft(percentScale).tickFormat(d3.format('.0%'));
+          let leftGridlines = d3.axisLeft(percentScale)
+                                .tickSize(-chartWidth-10)
+                                .tickFormat("")
+          annotations.append("g")
+                    .attr("class", "y axis")
+                    .attr("transform",`translate(${margin.left-10},${margin.top})`)
+                    .call(leftAxis)
+          annotations.append("g")
+                    .attr("class", "y gridlines")
+                    .attr("transform",`translate(${margin.left-10},${margin.top})`)
+                    .call(leftGridlines);
+
+        }
+
+        // Call main function
+        main();
+
+    </script>
+
+
+  </main>
+</body>
+
+</html>
